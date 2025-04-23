@@ -1,0 +1,5 @@
+
+This folder contains pixel art images for brewing results:
+- steam_cloud.png, mud.png, lava.png, etc.
+- special results: rainbow_water.png, immortality_elixir.png, etc.
+- random results: strange_goo.png, bubbling_mass.png, etc.

@@ -1,0 +1,6 @@
+
+This folder contains pixel art images for all items in the game:
+- water.png, fire.png, earth.png, etc.
+- special items: magic_dust.png, dragon_eye.png, etc.
+- coin.png - for currency display
+- info.png - for information icon

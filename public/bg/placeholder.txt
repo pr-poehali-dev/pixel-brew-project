@@ -1,0 +1,5 @@
+
+This folder contains background images for the pixel cauldron game:
+- grid.png - repeating pixel grid for the background
+- floor.png - pixel art floor texture
+- cauldron.png - pixel art cauldron image
