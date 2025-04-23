@@ -90,6 +90,113 @@ const PixelCauldron = () => {
       resultImage: '/results/immortality_elixir.png', 
       description: 'Волшебная пыль + Драконий глаз + Сердце феникса = Эликсир бессмертия' 
     },
+    // Добавляем больше рецептов
+    { 
+      id: 6, 
+      items: [2, 4], 
+      result: 'Огненный вихрь', 
+      resultImage: '/results/fire_vortex.png', 
+      description: 'Огонь + Воздух = Огненный вихрь' 
+    },
+    { 
+      id: 7, 
+      items: [3, 4], 
+      result: 'Песчаная буря', 
+      resultImage: '/results/sand_storm.png', 
+      description: 'Земля + Воздух = Песчаная буря' 
+    },
+    { 
+      id: 8, 
+      items: [1, 4], 
+      result: 'Туман', 
+      resultImage: '/results/fog.png', 
+      description: 'Вода + Воздух = Туман' 
+    },
+    { 
+      id: 9, 
+      items: [5, 2], 
+      result: 'Расплавленный металл', 
+      resultImage: '/results/molten_metal.png', 
+      description: 'Металл + Огонь = Расплавленный металл' 
+    },
+    { 
+      id: 10, 
+      items: [6, 1], 
+      result: 'Кристальная вода', 
+      resultImage: '/results/crystal_water.png', 
+      description: 'Кристалл + Вода = Кристальная вода' 
+    },
+    // И ещё больше рецептов...
+    { 
+      id: 11, 
+      items: [7, 11], 
+      result: 'Светящийся гриб', 
+      resultImage: '/results/glowing_mushroom.png', 
+      description: 'Гриб + Луна = Светящийся гриб' 
+    },
+    { 
+      id: 12, 
+      items: [8, 12], 
+      result: 'Солнечный цветок', 
+      resultImage: '/results/sun_flower.png', 
+      description: 'Цветок + Солнце = Солнечный цветок' 
+    },
+    { 
+      id: 13, 
+      items: [9, 13], 
+      result: 'Костяной страж', 
+      resultImage: '/results/bone_guardian.png', 
+      description: 'Кость + Глаз = Костяной страж' 
+    },
+    { 
+      id: 14, 
+      items: [14, 15], 
+      result: 'Зубастое перо', 
+      resultImage: '/results/toothed_feather.png', 
+      description: 'Зуб + Перо = Зубастое перо' 
+    },
+    { 
+      id: 15, 
+      items: [16, 17], 
+      result: 'Песочные часы', 
+      resultImage: '/results/hourglass.png', 
+      description: 'Ключ + Песок = Песочные часы' 
+    },
+    { 
+      id: 16, 
+      items: [18, 19], 
+      result: 'Ледяная молния', 
+      resultImage: '/results/ice_lightning.png', 
+      description: 'Лёд + Молния = Ледяная молния' 
+    },
+    { 
+      id: 17, 
+      items: [20, 21], 
+      result: 'Живая тень', 
+      resultImage: '/results/living_shadow.png', 
+      description: 'Тень + Древесина = Живая тень' 
+    },
+    { 
+      id: 18, 
+      items: [25, 26], 
+      result: 'Космический океан', 
+      resultImage: '/results/cosmic_ocean.png', 
+      description: 'Слеза русалки + Звёздная эссенция = Космический океан' 
+    },
+    { 
+      id: 19, 
+      items: [10, 11, 12], 
+      result: 'Небесная гармония', 
+      resultImage: '/results/celestial_harmony.png', 
+      description: 'Звезда + Луна + Солнце = Небесная гармония' 
+    },
+    { 
+      id: 20, 
+      items: [1, 2, 3], 
+      result: 'Первичный суп', 
+      resultImage: '/results/primordial_soup.png', 
+      description: 'Вода + Огонь + Земля = Первичный суп' 
+    },
   ];
 
   // Состояния
@@ -105,7 +212,8 @@ const PixelCauldron = () => {
   const cauldronRef = useRef<HTMLDivElement>(null);
 
   // Обработка перетаскивания
-  const handleDragStart = (item: Item) => {
+  const handleDragStart = (e: React.DragEvent, item: Item) => {
+    e.dataTransfer.setData('text/plain', item.id.toString());
     setDraggedItem(item);
   };
 
@@ -118,6 +226,13 @@ const PixelCauldron = () => {
     if (draggedItem && cauldronItems.length < 3) {
       setCauldronItems([...cauldronItems, draggedItem]);
       setDraggedItem(null);
+    }
+  };
+
+  // Обработка клика по предмету
+  const handleItemClick = (item: Item) => {
+    if (cauldronItems.length < 3) {
+      setCauldronItems([...cauldronItems, item]);
     }
   };
 
@@ -230,7 +345,7 @@ const PixelCauldron = () => {
                   className="cauldron-item"
                   style={{ animationDelay: `${index * 0.2}s` }}
                 >
-                  <img src={item.image} alt={item.name} className="w-10 h-10 object-contain" />
+                  <img src={item.image || '/placeholder.svg'} alt={item.name} className="w-10 h-10 object-contain" />
                 </div>
               ))}
             </div>
@@ -238,7 +353,7 @@ const PixelCauldron = () => {
             {/* Результат варки */}
             {result && resultImage && (
               <div className="result-container">
-                <img src={resultImage} alt={result} className="result-image" />
+                <img src={resultImage || '/placeholder.svg'} alt={result} className="result-image" />
                 <p className="result-name">{result}</p>
               </div>
             )}
@@ -271,11 +386,11 @@ const PixelCauldron = () => {
             <div className="items-in-cauldron">
               {cauldronItems.map((item, idx) => (
                 <Badge key={idx} variant={item.special ? "default" : "secondary"} className="item-badge">
-                  <img src={item.image} alt={item.name} className="w-4 h-4 mr-1" /> {item.name}
+                  <img src={item.image || '/placeholder.svg'} alt={item.name} className="w-4 h-4 mr-1" /> {item.name}
                 </Badge>
               ))}
               {cauldronItems.length === 0 && (
-                <p className="hint-text">Перетащите ингредиенты в котёл</p>
+                <p className="hint-text">Нажмите на ингредиенты в таблице</p>
               )}
               {cauldronItems.length >= 3 && (
                 <p className="warning-text">Котёл полон! (максимум 3)</p>
@@ -286,23 +401,24 @@ const PixelCauldron = () => {
         
         {/* Боковые панели */}
         <div className="side-panels">
-          {/* Кнопка для открытия таблицы предметов */}
-          <Button 
-            variant="outline" 
-            className="table-toggle-btn"
-            onClick={() => setShowItemsTable(!showItemsTable)}
-          >
-            {showItemsTable ? "Скрыть предметы" : "Показать предметы"}
-          </Button>
-          
-          {/* Кнопка для открытия таблицы рецептов */}
-          <Button 
-            variant="outline" 
-            className="recipe-toggle-btn ml-2"
-            onClick={() => setShowRecipes(!showRecipes)}
-          >
-            {showRecipes ? "Скрыть рецепты" : "Показать рецепты"}
-          </Button>
+          {/* Кнопки для открытия таблиц */}
+          <div className="flex gap-2">
+            <Button 
+              variant="outline" 
+              className="table-toggle-btn"
+              onClick={() => setShowItemsTable(!showItemsTable)}
+            >
+              {showItemsTable ? "Скрыть предметы" : "Показать предметы"}
+            </Button>
+            
+            <Button 
+              variant="outline" 
+              className="recipe-toggle-btn"
+              onClick={() => setShowRecipes(!showRecipes)}
+            >
+              {showRecipes ? "Скрыть рецепты" : "Показать рецепты"}
+            </Button>
+          </div>
         </div>
         
         {/* Таблица предметов */}
@@ -317,10 +433,11 @@ const PixelCauldron = () => {
                     "item-cell",
                     item.special ? "special-item" : "regular-item"
                   )}
+                  onClick={() => handleItemClick(item)}
                   draggable
-                  onDragStart={() => handleDragStart(item)}
+                  onDragStart={(e) => handleDragStart(e, item)}
                 >
-                  <img src={item.image} alt={item.name} className="item-image" />
+                  <img src={item.image || '/placeholder.svg'} alt={item.name} className="item-image" />
                   <p className="item-name">{item.name}</p>
                   {item.special && (
                     <Badge variant="secondary" className="special-badge">
@@ -330,8 +447,8 @@ const PixelCauldron = () => {
                 </div>
               ))}
             </div>
-            <p className="text-xs text-gray-400 mt-3">Перетащите ингредиенты в котёл (до 3 шт)</p>
-            <p className="text-xs text-amber-400 mt-1">
+            <p className="text-xs text-gray-400 mt-3 font-pixel">Нажмите на ингредиенты чтобы добавить их в котёл (до 3 шт)</p>
+            <p className="text-xs text-amber-400 mt-1 font-pixel">
               <img src="/items/info.png" alt="Подсказка" className="inline w-4 h-4 mr-1" /> 
               Особые ингредиенты (фиолетовые) дают 5 монет при варке
             </p>
@@ -350,13 +467,13 @@ const PixelCauldron = () => {
                       {recipe.items.map(itemId => {
                         const item = items.find(i => i.id === itemId);
                         return item ? (
-                          <img key={item.id} src={item.image} alt={item.name} className="recipe-ingredient-img" />
+                          <img key={item.id} src={item.image || '/placeholder.svg'} alt={item.name} className="recipe-ingredient-img" />
                         ) : null;
                       })}
                       <span className="recipe-arrow">→</span>
-                      <img src={recipe.resultImage} alt={recipe.result} className="recipe-result-img" />
+                      <img src={recipe.resultImage || '/placeholder.svg'} alt={recipe.result} className="recipe-result-img" />
                     </div>
-                    <p className="recipe-description">{recipe.description}</p>
+                    <p className="recipe-description font-pixel">{recipe.description}</p>
                   </div>
                 ))}
               </div>
